@@ -6,24 +6,38 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         
         <title>Document</title>
+
+
+        
+        <link href="https://fonts.googleapis.com/css2?family=Jua&display=swap" rel="stylesheet">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
+        <link rel="stylesheet" href="./main.css"/>
     </head>
     <body>
-        <h1>투두리스트</h1>
-        <h2>투두리스트</h2>
-        <h6>투두리스트</h6>
-        <div>영역</div>
-        <br/>
-        <hr/>
-        <div>영역2</div>
-        <p>긴~ 문장을 쓸 때</p>
-        <p>긴~ <span style="color:red">문장</span>을 쓸 때2</p>
-        <ul>
-            <li>1</li>
-            <li>2</li>
-        </ul>
-
-        <input type="text" />
-        <input type="number" />
-        <button>버튼</button>
+        <div class="container" id="container">
+            <h3 id ="title">정말 간단 TODO 리스트</h3>
+            <div id="sub-container">
+                <ul class="list-group" id="list-group">
+                    <li class="list-group-item d-flex justify-content-between align-items-center" id = "list-group-item">
+                      오늘의 할 일 목록 하나!
+                      <span class="badge bg-primary rounded-pill">삭제</span>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center" id = "list-group-item">
+                        오늘의 할 일 목록 하나!
+                        <span class="badge bg-primary rounded-pill">삭제</span>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center" id = "list-group-item">
+                        오늘의 할 일 목록 하나!
+                        <span class="badge bg-primary rounded-pill">삭제</span>
+                    </li>
+                  </ul>
+            
+            </div>
+            <div class="input-group mb-3" id = "input-group">
+                <input type="text" class="form-control" id ="input-area">
+                <button class="btn btn-outline-secondary" type ="button" id="button-area">Button</button>
+            </div>
+        </div>
     </body>
 </html>
