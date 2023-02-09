@@ -29,14 +29,124 @@
             <p class="lead">This is a simple hero unit, a simple jumbotron-style component for calling extra attention to featured content or information.</p>
             <hr class="my-4">
             <p>It uses utility classes for typography and spacing to space content out within the larger container.</p>
-            <a class="btn btn-danger" href="#" role="button">Learn more</a>
+            <a class="btn btn-danger" href="#" role="button">Learn more</a> 
+        </div>
+
+        <div class="row row-cols-1 row-cols-md-3" id = "movie-list">
+            <div class="col mb-4">
+              <div class="card">
+                <img src="..." class="card-img-top" alt="...">
+                <div class="card-body">
+                  <h5 class="card-title">Card title</h5>
+                  <button type="button" class="btn btn-success" id = "review-button" onclick ="review()">리뷰 보기</button>
+    
+                </div>
+              </div>
+            </div>
+          </div>
+
+    </div>
+
+    
+
+    <div class="modal" id ="review-modal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">후기</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p> ㅇㅇㅇㅇㅇ </p>
+            </div>
+            <div class="modal-footer">
+                <input type="text" class="form-control" id = "review" style ="width:70%"/>
+                <button type="button" class="btn btn-primary" onclick="addReview()">후기 쓰기</button>
+            </div>
+            </div>
         </div>
     </div>
 
     
 
     
-    <script src="https://code.jquery.com/jquery-3.5.1.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"></script>    
+
+    <script>
+        let target_id = 0;
+        $(document).ready(function(){
+            console.log("시작")
+
+            $.ajax({
+                url:"https://api.themoviedb.org/3/movie/popular?api_key=10923b261ba94d897ac6b81148314a3f&page=1",
+                data:{"key":"value"},
+                type:"POST",
+                success:function(json){
+                    console.log(json)
+
+                    $("#movie-list").html('')
+                    let movie_list = json.results;
+
+                    for (let i=0; i<movie_list.length; i++){
+                        let card =`<div class="col mb-4">
+                            <div class="card">
+                                <img src="${'https://image.tmdb.org/t/p/w500/'+movie_list[i].poster_path}" class="card-img-top" alt="...">
+                                <div class="card-body">
+                                <h5 class="card-title">${movie_list[i].original_title}</h5>
+                                <button type="button" class="btn btn-success" id = "review-button" onclick ="review(${movie_list[i].id})">리뷰 보기</button>
+                    
+                                </div>
+                            </div>
+                        </div>`
+                        $("#movie-list").append(card)               
+                    }
+
+                },
+                error:function(err){
+                    
+                }
+            }) 
+        })
+
+        function review(id){
+            target_id = id
+            $.ajax({
+                url:`http://universeapi.net/review/list?movie_id=${id}`,
+                data:{},
+                type:"GET",
+                success:function(json){
+                    console.log(json.data)
+                    let reviews = json.data;
+                     $(".modal-body").html('')
+                    for(let i=0; i<reviews.length; i++){
+                        $(".modal-body").append(`<p>${reviews[i].review}</p>`)
+                    }
+                }
+            })
+            $("#review-modal").modal('show')
+        }
+
+        function addReview(){
+            let review = $("#review").val();
+            let review_html = `<p>${review}</p>`
+
+            $.ajax({
+                url:`http://universeapi.net/review/add`,
+                data:{
+                    movie_id:target_id,
+                    review:review
+                },
+                type:"POST",
+                success:function(json){
+                    console.log(json)
+                }
+            })
+            $(".modal-body").append(review_html)
+            $("#review").val('')
+        }
+    </script>
 </body>
 </html>
